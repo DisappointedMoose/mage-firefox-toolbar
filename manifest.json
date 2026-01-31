@@ -6,7 +6,11 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "disappointedmage-toolbar@disappointed.mage",
-      "strict_min_version": "109.0"
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "techdata": false,
+        "healthdata": false
+      }
     }
   },
   "icons": {
