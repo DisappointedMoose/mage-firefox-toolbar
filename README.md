@@ -4,6 +4,8 @@
 [![License: OSL-3.0](https://img.shields.io/badge/License-OSL--3.0-blue.svg)](https://opensource.org/licenses/OSL-3.0)
 [![Magento 2](https://img.shields.io/badge/Magento-2.x-orange?logo=magento)](https://magento.com/)
 
+![logo.png](images/logo.png)
+
 A Firefox DevTools extension for debugging **Magento 2** stores. Quickly access performance metrics, theme information, blocks, and more — right from your browser's developer tools.
 
 > 🙏 Based on [MSP_DevTools Chrome Extension](https://github.com/magespecialist/mage-chrome-toolbar) by MageSpecialist, licensed under OSL 3.0.
