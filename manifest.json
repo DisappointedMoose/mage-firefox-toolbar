@@ -1,15 +1,16 @@
 {
   "manifest_version": 3,
-  "name": "DisappointedMage Firefox Toolbar",
+  "name": "DisappointedMage Toolbar",
   "description": "Firefox DevTools extension for Magento debugging. Works with MSP_DevTools module.",
   "version": "1.0.1",
   "browser_specific_settings": {
     "gecko": {
       "id": "disappointedmage-toolbar@disappointed.mage",
-      "strict_min_version": "109.0",
+      "strict_min_version": "140.0",
       "data_collection_permissions": {
-        "techdata": false,
-        "healthdata": false
+        "required": [
+          "none"
+        ]
       }
     }
   },
@@ -20,7 +21,7 @@
   },
   "action": {
     "default_icon": "images/icon_off.png",
-    "default_title": "DisappointedMage Firefox Toolbar",
+    "default_title": "DisappointedMage Toolbar",
     "default_popup": "popup.html"
   },
   "permissions": [
