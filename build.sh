@@ -29,6 +29,7 @@ zip -r "$DIST_DIR/$ZIP_NAME" . \
     -x ".gitignore" \
     -x "dist/*" \
     -x "build.sh" \
+    -x "screenshots/*" \
     -x "*.zip"
 
 echo ""
