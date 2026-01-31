@@ -1,0 +1,361 @@
+/**
+ * MageSpecialist
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to info@magespecialist.it so we can send you a copy immediately.
+ *
+ * @category   MSP
+ * @package    MSP_DevTools
+ * @copyright  Copyright (c) 2017 Skeeller srl (http://www.magespecialist.it)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+body {
+    background: #212121;
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+* {
+    transition: all ease-out 0.1s;
+    border-radius: 0 !important;
+}
+
+h4 {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+a,
+a:link,
+a:visited {
+    color: inherit;
+    text-decoration: none;
+}
+a:hover {
+    opacity: .7;
+    text-decoration: underline;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    flex-direction: row;
+    height: 52px;
+    background: #000000;
+    top: 0;
+    transition: all 0.1s ease-in-out;
+    z-index: 5;
+}
+
+.sticky-header .header {
+    height: 32px;
+    position: sticky;
+}
+
+.sticky-header .header img {
+    width: 24px;
+}
+
+.sticky-header ul#main_tabs {
+    top: 32px;
+    position: sticky;
+    background-color: #212121;
+    z-index: 5;
+}
+
+.header a {
+    text-decoration: none;
+}
+
+.header .logo {
+    margin: auto 16px;
+}
+
+.header small {
+    font-size: 12px;
+}
+
+.header .brand-name {
+    display: flex;
+}
+
+.header .brand-name h4 {
+    margin: 0;
+    color: #fafafa;
+}
+.header .brand-name small {
+    padding-left: 0.5em;
+}
+.header .brand-name a,
+.header .brand-name a:link,
+.header .brand-name a:visited {
+    color: #fafafa;
+}
+
+body.floating-header .header {
+    height: 32px;
+    z-index: 1000;
+    /*position: fixed;*/
+    top: 0;
+}
+
+body.floating-header .header .logo {
+    margin: auto 8px;
+}
+
+body.floating-header .header .logo img {
+    width: 20px;
+}
+
+body.floating-header .header h4 {
+    display: inline;
+    margin-right: 10px;
+}
+
+/*body.floating-header .header small {*/
+    /*display: none;*/
+/*}*/
+
+.content {
+    color: #eee;
+}
+
+.msp-inspector.content {
+    padding: 1em;
+}
+
+#inspected h4 {
+    margin: 10px 0;
+}
+
+.rendered-property ul {
+    margin: 0;
+    list-style: disc inside none;
+    padding: 0;
+}
+
+.phpstorm-links.rendered-property .definition-list {
+    background: #4a4a4a;
+}
+
+.phpstorm-links a,
+.phpstorm-links a:link,
+.phpstorm-links a:visited {
+    text-decoration: underline;
+}
+
+.rendered-property .definition-list {
+    background: #424242;
+    padding: 1em;
+    width: 100%;
+}
+.rendered-property .definition-list .definition-list {
+    padding: 0;
+}
+
+.rendered-property .definition-row {
+    display: flex;
+}
+
+.compact .rendered-property .definition-row {
+    display: block;
+}
+
+.msp-panel .property-tab .rendered-property .definition-row {
+    margin: 5px 0;
+}
+.msp-panel .property-tab .rendered-property .definition-row  .definition-row {
+    margin: 0;
+}
+
+.msp-panel .rendered-property .definition-term {
+    width: 130px;
+    min-width: 130px;
+}
+
+.msp-panel .runlevel {
+    margin: 1em;
+}
+
+#runlevel-online {
+    margin: 0;
+}
+
+.msp-panel {
+    font-size: 12px;
+}
+
+.rendered-property .definition-term {
+    font-weight: bold;
+    color: #fafafa;
+    display: table-cell;
+    width: 110px;
+    min-width: 110px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.compact .rendered-property .definition-term {
+    display: block;
+    width: auto;
+}
+
+.rendered-property .definition-data .definition-term {
+    font-weight: normal;
+    margin-right: .5em;
+    width: auto !important;
+    min-width: 0 !important;
+}
+.rendered-property .definition-data .definition-term:after {
+    content: ':';
+}
+
+.rendered-property .definition-data {
+    display: table-cell;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    flex-grow: 1;
+}
+
+.compact .rendered-property .definition-data {
+    display: block;
+    padding-left: 2em;
+    white-space: normal;
+    word-break: break-all;
+}
+
+.runlevel {
+    display: none;
+}
+
+.nav-tabs {
+    border-bottom: 0;
+}
+
+.nav-tabs > li > a,
+.nav-tabs > li > a:focus,
+.nav-tabs > li > a:hover {
+    border: 0 !important;
+    color: #fafafa;
+    font-weight: bold;
+}
+
+.nav-tabs > li > a:hover {
+    background: #757575 !important;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background: #424242;
+    color: #fafafa;
+}
+
+.tab-content {
+    background: #424242 !important;
+    padding: 8px;
+}
+
+.table td, .table th {
+    font-size: 12px;
+    color: #dddddd;
+}
+
+.table thead tr th {
+    border-bottom: 2px solid #757575 !important;
+}
+
+.table tbody td, .table thead .footable-header th {
+    border-top: 2px solid #454545 !important;
+}
+
+.table th[data-type=int] {
+    text-align: right;
+}
+
+.input-group button {
+    height: 34px;
+}
+
+.input-group input[type=text] {
+    background: #757575;
+    color: #dddddd;
+    border: 0;
+}
+
+th[data-icon] {
+    padding: 0;
+}
+
+.modal-content {
+    background: #212121;
+    color: #dddddd;
+}
+
+.modal-body {
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    border-top: 1px solid #454545;
+}
+
+.modal-backdrop {
+    background-color: #fafafa;
+}
+
+td .glyphicon {
+    background: #8c8c8c;
+    color: #222222;
+    padding: 5px;
+}
+
+td .glyphicon:hover {
+    transition: color 0.1s ease-in-out;
+    background-color: #fafafa;
+}
+
+.popup {
+    background-color: #fff;
+    padding: 1rem;
+    min-width: 130px;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus {
+    background: #ff3ba1 none;
+    border: none;
+}
+
+td.footable-sortable.footable-asc>span.fooicon, td.footable-sortable.footable-desc>span.fooicon, td.footable-sortable:hover>span.fooicon, th.footable-sortable.footable-asc>span.fooicon, th.footable-sortable.footable-desc>span.fooicon, th.footable-sortable:hover>span.fooicon {
+    opacity: unset;
+    color: #fafafa;
+}
+td.footable-sortable>span.fooicon, th.footable-sortable>span.fooicon {
+    opacity: unset;
+    color: #757575;
+    transition: color 0.2s ease-in-out;
+}
+td.footable-sortable:hover>span.fooicon, th.footable-sortable:hover>span.fooicon {
+    opacity: unset;
+    color: #fafafa;
+}
+
+#runlevel-no-mage {
+    padding: 15px;
+}
+tbody tr:nth-child(odd) {
+    background-color: #555555;
+}
