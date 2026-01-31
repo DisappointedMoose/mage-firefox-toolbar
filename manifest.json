@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "DisappointedMage Firefox Toolbar",
   "description": "Firefox DevTools extension for Magento debugging. Works with MSP_DevTools module.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "browser_specific_settings": {
     "gecko": {
       "id": "disappointedmage-toolbar@disappointed.mage",
