@@ -19,22 +19,32 @@
 
 var port = browser.runtime.connect({name: "content"});
 
+function nextUntil(node, stop) {
+  var results = [];
+  var cur = node.nextSibling;
+  while (cur && cur !== stop) {
+    if (cur.nodeType === 1) results.push(cur);
+    cur = cur.nextSibling;
+  }
+  return results;
+}
+
 function addDocumentInformation() {
   var blocks = [];
 
-  var markers = document.evaluate('//comment()[contains(., \"START_MSPDEV\[\")]', document, null, XPathResult.ANY_TYPE, null);
+  var markers = document.evaluate('//comment()[contains(., "START_MSPDEV[")]', document, null, XPathResult.ANY_TYPE, null);
   while (true) {
     var startMarker = markers.iterateNext();
 
     if (startMarker) {
       var endMarkerContent = startMarker.textContent.replace('START_MSPDEV', 'END_MSPDEV').trim();
 
-      var endMarker = document.evaluate('//comment()[contains(., \"' + endMarkerContent + '\")]', document, null, XPathResult.ANY_TYPE, null).iterateNext();
+      var endMarker = document.evaluate('//comment()[contains(., "' + endMarkerContent + '")]', document, null, XPathResult.ANY_TYPE, null).iterateNext();
       if (endMarker) {
         var m = endMarker.textContent.match(/END_MSPDEV\[(\w+)\]/);
         if (m) {
           var blockId = m[1];
-          var section = $(startMarker).nextUntil(endMarker);
+          var section = nextUntil(startMarker, endMarker);
 
           blocks.push({
             'blockId': blockId,
@@ -48,8 +58,12 @@ function addDocumentInformation() {
   }
 
   blocks.forEach(function(block) {
-    $(block['section']).attr('data-mspdevtools', block['blockId']);
-    $(block['section']).find('*').attr('data-mspdevtools', block['blockId']);
+    block.section.forEach(function(el) {
+      el.setAttribute('data-mspdevtools', block.blockId);
+      el.querySelectorAll('*').forEach(function(child) {
+        child.setAttribute('data-mspdevtools', block.blockId);
+      });
+    });
   });
 }
 
@@ -73,15 +87,13 @@ window.addEventListener("message", function (event) {
   }
 });
 
-$(function () {
-  // Parse html comments on page reload
-  addDocumentInformation();
+// content scripts run at document_idle (after DOMContentLoaded) by default
+addDocumentInformation();
 
-  port.postMessage({
-    type: 'icon',
-    to: 'background',
-    payload: $('[data-mspdevtools]').length > 0 ? 'online' : 'offline'
-  });
-
-  updateDevToolsInformation();
+port.postMessage({
+  type: 'icon',
+  to: 'background',
+  payload: document.querySelector('[data-mspdevtools]') !== null ? 'online' : 'offline'
 });
+
+updateDevToolsInformation();

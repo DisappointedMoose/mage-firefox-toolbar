@@ -17,17 +17,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-$(function () {
-  var $body = $('body');
-
-  $(window).scroll(function () {
-
-    if ($(window).scrollTop() > 32) {
-      if (!$body.hasClass('sticky-header')) {
-        $body.addClass('sticky-header');
-      }
-    } else {
-      $body.removeClass('sticky-header');
-    }
-  });
+window.addEventListener('scroll', function () {
+  if (window.scrollY > 32) {
+    document.body.classList.add('sticky-header');
+  } else {
+    document.body.classList.remove('sticky-header');
+  }
 });

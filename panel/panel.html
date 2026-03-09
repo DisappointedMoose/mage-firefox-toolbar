@@ -23,14 +23,10 @@
 <head>
     <meta charset="utf-8">
     <script src="../js/browser-polyfill.min.js"></script>
-    <script src="../js/jquery.js"></script>
     <script src="../js/renderer.js"></script>
     <script src="../js/inspector.js"></script>
     <script src="../js/panel.js"></script>
     <script src="../js/sticky.js"></script>
-    <script src="../js/bootbox.min.js"></script>
-    <script src="../bootstrap/js/bootstrap.min.js"></script>
-    <script src="../footable/js/footable.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="../bootstrap/css/bootstrap-theme.min.css" />
@@ -246,6 +242,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="detail-modal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1050; overflow:auto;">
+    <div style="background:#fff; margin:30px auto; padding:20px; max-width:800px; border-radius:4px; position:relative;">
+        <button id="detail-modal-close" class="close" style="position:absolute; top:10px; right:15px; font-size:24px;">&times;</button>
+        <div id="detail-modal-body"></div>
     </div>
 </div>
 </body>

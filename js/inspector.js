@@ -18,24 +18,33 @@
  */
 
 function updateInspectorUI(result) {
-  $('#inspected').css('display', 'none');
-  $('#missing').css('display', 'none');
-  $('#no-data').css('display', 'none');
+  var inspectedEl = document.getElementById('inspected');
+  var missingEl = document.getElementById('missing');
+  var noDataEl = document.getElementById('no-data');
+
+  // These elements only exist in inspector.html, not panel.html
+  if (!inspectedEl || !missingEl || !noDataEl) return;
+
+  inspectedEl.style.display = 'none';
+  missingEl.style.display = 'none';
+  noDataEl.style.display = 'none';
 
   if (!result || result.status === 'no-data') {
-    $('#no-data').css('display', 'block');
+    noDataEl.style.display = 'block';
   } else if (result.status === 'missing') {
-    $('#missing').css('display', 'block');
+    missingEl.style.display = 'block';
   } else if (result.status === 'found' && result.data) {
-    $('#inspected').css('display', 'block');
-    $('#inspected').html(getBlockInfo(result.data));
-    $('.phpstorm-link').click(function(e) {
-      e.preventDefault();
-      fetch(e.target.href);
+    inspectedEl.style.display = 'block';
+    inspectedEl.replaceChildren(getBlockInfo(result.data));
+    document.querySelectorAll('.phpstorm-link').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        fetch(e.currentTarget.href);
+      });
     });
   } else {
     // Empty or no data
-    $('#no-data').css('display', 'block');
+    noDataEl.style.display = 'block';
   }
 }
 
@@ -148,5 +157,6 @@ if (browser && browser.devtools && browser.devtools.panels && browser.devtools.p
   onItemInspected();
 } else {
   // Initial display
-  $('#no-data').css('display', 'block');
+  var noDataEl = document.getElementById('no-data');
+  if (noDataEl) noDataEl.style.display = 'block';
 }

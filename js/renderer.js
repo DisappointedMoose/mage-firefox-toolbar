@@ -17,10 +17,17 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-function renderPropertyOptions(data) {
-  var flattenProperty = {};
+function makeEl(tag, className) {
+  var el = document.createElement(tag);
+  if (className) el.className = className;
+  return el;
+}
 
-  for (var i=0; i<data.length; i++) {
+function renderPropertyOptions(data) {
+  if (!data) return renderProperty({});
+
+  var flattenProperty = {};
+  for (var i = 0; i < data.length; i++) {
     flattenProperty[data[i]['label']] = data[i]['value'];
   }
 
@@ -28,68 +35,69 @@ function renderPropertyOptions(data) {
 }
 
 function renderProperty(data) {
-  var $res = $('<span></span>').addClass('rendered-property');
+  var res = makeEl('span', 'rendered-property');
 
-  if (Object.prototype.toString.call(data) === '[object Array]') {
-    var $ul = $('<ul></ul>');
+  if (Array.isArray(data)) {
+    var ul = makeEl('ul');
     for (var i = 0; i < data.length; i++) {
-      var $li = $('<li></li>');
-      $li.append(renderProperty(data[i]));
-      $ul.append($li);
+      var li = makeEl('li');
+      li.appendChild(renderProperty(data[i]));
+      ul.appendChild(li);
     }
-    $res.append($ul);
+    res.appendChild(ul);
 
-  } else if (Object.prototype.toString.call(data) === '[object Object]') {
-    var $dl = $('<div></div>').addClass('definition-list');
+  } else if (data !== null && typeof data === 'object') {
+    var dl = makeEl('div', 'definition-list');
     Object.keys(data).forEach(function (k) {
-      var $dr = $('<div></div>').addClass('definition-row');
-      var $dt = $('<div></div>').addClass('definition-term');
-      var $dd = $('<div></div>').addClass('definition-data');
+      var dr = makeEl('div', 'definition-row');
+      var dt = makeEl('div', 'definition-term');
+      var dd = makeEl('div', 'definition-data');
 
-      $dt.text(k);
-      $dd.append(renderProperty(data[k]));
+      dt.textContent = k;
+      dd.appendChild(renderProperty(data[k]));
 
-      $dr.append($dt);
-      $dr.append($dd);
+      dr.appendChild(dt);
+      dr.appendChild(dd);
 
-      $dl.append($dr);
+      dl.appendChild(dr);
     });
 
-    $res.append($dl);
+    res.appendChild(dl);
   } else {
-
-    $res.addClass('string');
-    $res.text(data);
+    res.classList.add('string');
+    res.textContent = data;
   }
 
-  return $res;
+  return res;
 }
 
 function getPhpStormLinks(data) {
   var phpStormLinks = data['phpstorm_links'];
-  var $phpStormLinks = false;
+  var phpStormLinksEl = null;
 
   if (phpStormLinks && phpStormLinks.length) {
-    $phpStormLinks = $('<div></div>').addClass('phpstorm-links').addClass('rendered-property');
-    var $dl = $('<div></div>').addClass('definition-list');
+    phpStormLinksEl = makeEl('div', 'phpstorm-links rendered-property');
+    var dl = makeEl('div', 'definition-list');
 
-    $phpStormLinks.append($('<h4></h4>').text('PhpStorm Shortcuts'));
-    $phpStormLinks.append($dl);
+    var h4 = makeEl('h4');
+    h4.textContent = 'PhpStorm Shortcuts';
+    phpStormLinksEl.appendChild(h4);
+    phpStormLinksEl.appendChild(dl);
 
     for (var i = 0; i < phpStormLinks.length; i++) {
-      var $link = $('<a></a>')
-        .attr('href', phpStormLinks[i]['link'])
-        .text(phpStormLinks[i]['file'])
-        .addClass('phpstorm-link');
+      var link = makeEl('a', 'phpstorm-link');
+      link.href = phpStormLinks[i]['link'];
+      link.textContent = phpStormLinks[i]['file'];
 
-      var $dr = $('<div></div>').addClass('definition-row');
-      var $dd = $('<div></div>').addClass('definition-data');
+      var dr = makeEl('div', 'definition-row');
+      var dt = makeEl('div', 'definition-term');
+      dt.textContent = phpStormLinks[i]['key'];
+      var dd = makeEl('div', 'definition-data');
 
-      $dd.append($link);
-      $dr.append($('<div></div>').addClass('definition-term').text(phpStormLinks[i]['key']));
-      $dr.append($dd);
-
-      $dl.append($dr);
+      dd.appendChild(link);
+      dr.appendChild(dt);
+      dr.appendChild(dd);
+      dl.appendChild(dr);
     }
   }
 
@@ -97,15 +105,12 @@ function getPhpStormLinks(data) {
   delete data['phpstorm_url'];
   delete data['phpstorm_links'];
 
-  return $phpStormLinks;
+  return phpStormLinksEl;
 }
 
 function getPerformanceProperties(data) {
   var allowedFields = ['time', 'proper_time', 'count'];
 
-  var $blockInfo = $('<div></div>').addClass('block-performance');
-  $blockInfo.append($('<h4></h4>').text('Performance'));
-
   var data2 = {};
   allowedFields.forEach(function (k) {
     if (data.hasOwnProperty(k)) {
@@ -115,20 +120,21 @@ function getPerformanceProperties(data) {
   });
 
   if (!Object.keys(data2).length) {
-    return false;
+    return null;
   }
 
-  $blockInfo.append(renderProperty(data2));
+  var blockInfo = makeEl('div', 'block-performance');
+  var h4 = makeEl('h4');
+  h4.textContent = 'Performance';
+  blockInfo.appendChild(h4);
+  blockInfo.appendChild(renderProperty(data2));
 
-  return $blockInfo;
+  return blockInfo;
 }
 
 function getBlockMain(data) {
   var allowedFields = ['name', 'type', 'class', 'class_method', 'plugins', 'template', 'module', 'cms_block_id', 'component', 'sql', 'grade'];
 
-  var $blockInfo = $('<div></div>').addClass('block-main');
-  $blockInfo.append($('<h4></h4>').text('Main Information'));
-
   var data2 = {};
   allowedFields.forEach(function (k) {
     if (data.hasOwnProperty(k)) {
@@ -138,25 +144,30 @@ function getBlockMain(data) {
   });
 
   if (!Object.keys(data2).length) {
-    return false;
+    return null;
   }
 
-  $blockInfo.append(renderProperty(data2));
+  var blockInfo = makeEl('div', 'block-main');
+  var h4 = makeEl('h4');
+  h4.textContent = 'Main Information';
+  blockInfo.appendChild(h4);
+  blockInfo.appendChild(renderProperty(data2));
 
-  return $blockInfo;
+  return blockInfo;
 }
 
 function getExtraProperties(data) {
   if (!Object.keys(data).length) {
-    return false;
+    return null;
   }
 
-  var $blockInfo = $('<div></div>').addClass('block-extra');
+  var blockInfo = makeEl('div', 'block-extra');
+  var h4 = makeEl('h4');
+  h4.textContent = 'Extra Properties';
+  blockInfo.appendChild(h4);
+  blockInfo.appendChild(renderProperty(data));
 
-  $blockInfo.append($('<h4></h4>').text('Extra Properties'));
-  $blockInfo.append(renderProperty(data));
-
-  return $blockInfo;
+  return blockInfo;
 }
 
 function getBlockInfo(data, customClass) {
@@ -166,29 +177,17 @@ function getBlockInfo(data, customClass) {
     return null;
   }
 
-  var $main = getBlockMain(data2);
-  var $phpStorm = getPhpStormLinks(data2);
-  var $performance = getPerformanceProperties(data2);
-  var $extra = getExtraProperties(data2);
+  var main = getBlockMain(data2);
+  var phpStorm = getPhpStormLinks(data2);
+  var performance = getPerformanceProperties(data2);
+  var extra = getExtraProperties(data2);
 
-  var $div = $('<div></div>');
-  if (customClass) {
-    $div.addClass(customClass);
-  }
+  var div = makeEl('div', customClass || '');
 
-  if ($phpStorm) {
-    $div.append($phpStorm);
-  }
+  if (phpStorm) div.appendChild(phpStorm);
+  if (main) div.appendChild(main);
+  if (performance) div.appendChild(performance);
+  if (extra) div.appendChild(extra);
 
-  $div.append($main);
-
-  if ($performance) {
-    $div.append($performance);
-  }
-
-  if ($extra) {
-    $div.append($extra);
-  }
-
-  return $div[0];
+  return div;
 }
