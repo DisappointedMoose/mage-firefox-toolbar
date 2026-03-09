@@ -30,7 +30,8 @@ zip -r "$DIST_DIR/$ZIP_NAME" . \
     -x "dist/*" \
     -x "build.sh" \
     -x "screenshots/*" \
-    -x "*.zip"
+    -x "*.zip" \
+    -x "images/logo.png"
 
 echo ""
 echo "✅ Build complete: dist/$ZIP_NAME"
