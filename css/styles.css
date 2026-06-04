@@ -277,7 +277,7 @@ body.floating-header .header h4 {
     border-bottom: 2px solid #757575 !important;
 }
 
-.table tbody td, .table thead .footable-header th {
+.table tbody td {
     border-top: 2px solid #454545 !important;
 }
 
@@ -339,19 +339,6 @@ td .glyphicon:hover {
     border: none;
 }
 
-td.footable-sortable.footable-asc>span.fooicon, td.footable-sortable.footable-desc>span.fooicon, td.footable-sortable:hover>span.fooicon, th.footable-sortable.footable-asc>span.fooicon, th.footable-sortable.footable-desc>span.fooicon, th.footable-sortable:hover>span.fooicon {
-    opacity: unset;
-    color: #fafafa;
-}
-td.footable-sortable>span.fooicon, th.footable-sortable>span.fooicon {
-    opacity: unset;
-    color: #757575;
-    transition: color 0.2s ease-in-out;
-}
-td.footable-sortable:hover>span.fooicon, th.footable-sortable:hover>span.fooicon {
-    opacity: unset;
-    color: #fafafa;
-}
 
 #runlevel-no-mage {
     padding: 15px;

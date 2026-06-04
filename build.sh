@@ -31,7 +31,11 @@ zip -r "$DIST_DIR/$ZIP_NAME" . \
     -x "build.sh" \
     -x "screenshots/*" \
     -x "*.zip" \
-    -x "images/logo.png"
+    -x "images/logo.png" \
+    -x "bootstrap/css/bootstrap.css" \
+    -x "bootstrap/css/bootstrap-theme.css" \
+    -x "bootstrap/css/bootstrap-theme.min.css" \
+    -x "footable/*"
 
 echo ""
 echo "✅ Build complete: dist/$ZIP_NAME"
