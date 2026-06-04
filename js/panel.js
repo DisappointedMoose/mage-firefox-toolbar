@@ -173,8 +173,7 @@ class SimpleTable {
           if (!col.filterable) return false;
           var val = row[col.name];
           if (val == null) return false;
-          // Strip HTML tags before comparing
-          var text = String(val).replace(/<[^>]+>/g, '').toLowerCase();
+          var text = (val instanceof Node ? val.textContent : String(val)).toLowerCase();
           return text.includes(this.filterText);
         });
       });
@@ -185,8 +184,10 @@ class SimpleTable {
       var col = this.columns[this.sortCol];
       var dir = this.sortDir;
       rows.sort(function(a, b) {
-        var as = String(a[col.name] || '').replace(/<[^>]+>/g, '');
-        var bs = String(b[col.name] || '').replace(/<[^>]+>/g, '');
+        var av = a[col.name];
+        var bv = b[col.name];
+        var as = av instanceof Node ? av.textContent : String(av || '');
+        var bs = bv instanceof Node ? bv.textContent : String(bv || '');
         var an = parseFloat(as);
         var bn = parseFloat(bs);
         var cmp = (!isNaN(an) && !isNaN(bn)) ? (an - bn) : as.localeCompare(bs);
@@ -205,7 +206,13 @@ class SimpleTable {
           });
         }
         var val = row[col.name];
-        if (val != null) td.innerHTML = String(val);
+        if (val != null) {
+          if (val instanceof Node) {
+            td.appendChild(val);
+          } else {
+            td.textContent = String(val);
+          }
+        }
         tr.appendChild(td);
       });
       frag.appendChild(tr);
@@ -335,24 +342,31 @@ function renderTableTab(tabId, values) {
         a.href = '#';
         a.setAttribute('data-details', JSON.stringify(values[k]));
         a.className = 'show-details';
-        a.innerHTML = val;
-        val = a.outerHTML;
+        a.textContent = String(val);
+        val = a;
       }
 
       if (colIcon && val) {
+        var iconLink = document.createElement('a');
+        var iconSpan = document.createElement('span');
         if (colType === 'phpstorm') {
-          val = '<a title="Open in PhpStorm" class="phpstorm-url" href="' + val + '">'
-            + '<span class="glyphicon glyphicon-file"></span>'
-            + '</a>';
+          iconLink.title = 'Open in PhpStorm';
+          iconLink.className = 'phpstorm-url';
+          iconLink.href = String(val);
+          iconSpan.className = 'glyphicon glyphicon-file';
         } else if (colType === 'inspect-block') {
-          val = '<a title="Find in DOM" class="inspect-block" href="' + val + '">'
-            + '<span class="glyphicon glyphicon-eye-open"></span>'
-            + '</a>';
+          iconLink.title = 'Find in DOM';
+          iconLink.className = 'inspect-block';
+          iconLink.href = String(val);
+          iconSpan.className = 'glyphicon glyphicon-eye-open';
         } else if (colType === 'inspect-ui-component') {
-          val = '<a title="Find in DOM" class="inspect-ui-component" href="' + val + '">'
-            + '<span class="glyphicon glyphicon-eye-open"></span>'
-            + '</a>';
+          iconLink.title = 'Find in DOM';
+          iconLink.className = 'inspect-ui-component';
+          iconLink.href = String(val);
+          iconSpan.className = 'glyphicon glyphicon-eye-open';
         }
+        iconLink.appendChild(iconSpan);
+        val = iconLink;
       }
 
       row[col['name']] = val;
