@@ -223,6 +223,7 @@ body.floating-header .header h4 {
 
 .rendered-property .definition-data {
     display: table-cell;
+    color: #eee;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
